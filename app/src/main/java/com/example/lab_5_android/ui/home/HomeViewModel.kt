@@ -6,8 +6,21 @@ import androidx.lifecycle.ViewModel
 
 class HomeViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    // Event to go to Register Fragment
+    private val _eventGoToRegister = MutableLiveData<Boolean>()
+    val eventGoToRegister: LiveData<Boolean>
+    get() = _eventGoToRegister
+
+    init {
+
     }
-    val text: LiveData<String> = _text
+
+    fun onGoToRegisterComplete() {
+        _eventGoToRegister.value = false
+    }
+
+    fun onGoToRegister() {
+        _eventGoToRegister.value = true
+    }
+
 }

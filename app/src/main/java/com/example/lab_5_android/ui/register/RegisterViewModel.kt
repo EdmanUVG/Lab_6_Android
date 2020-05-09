@@ -13,18 +13,26 @@ import kotlinx.android.synthetic.main.fragment_register.*
 class RegisterViewModel : ViewModel() {
 
     // Total of guesed registered
-    var guestRegistered = 0
-
-    // The current guest we are evaluating
-    var currentGuest = 0
+    private val _guestRegistered = MutableLiveData<Int>()
+    val guestRegistered: LiveData<Int>
+    get() = _guestRegistered
 
     // Total of guest in our list
-    var guestCount = 1;
+    private val _guestCount = MutableLiveData<Int>()
+    val guestCount: LiveData<Int>
+    get() = _guestCount
 
     // the current guest
-    var guest = ""
+    private val _guest = MutableLiveData<String>()
+    val guest: LiveData<String>
+    get() = _guest
 
-    class Guest(val name: String, val phone: String, val email: String, val registered: Boolean )
+    private val _eventGameFinish = MutableLiveData<Boolean>()
+    val eventGameFinish: LiveData<Boolean>
+    get() = _eventGameFinish
+
+
+//    class Guest(val name: String, val phone: String, val email: String, val registered: Boolean )
 
     // List of Guests
     private lateinit var guestList: MutableList<String>
@@ -36,7 +44,6 @@ class RegisterViewModel : ViewModel() {
             "Crisitan",
             "Marco"
         )
-        guestList.shuffle()
     }
 
 
@@ -56,88 +63,42 @@ class RegisterViewModel : ViewModel() {
     init {
         resetLists()
         nextGuest()
-//        showCurrentGuest()
+
+        _guestCount.value = 1
+        _guest.value = guestList.removeAt(0)
+        _guestRegistered.value = 0
     }
 
     private fun nextGuest() {
-        if (!guestList.isEmpty()) {
+        if (guestList.isEmpty()) {
+            onGameFinish()
+        } else {
             // Select and remove a guest from the list
-            guest = guestList.removeAt(0)
+            _guest.value = guestList.removeAt(0)
         }
     }
 
      fun onYesGuestClicked() {
-         guestRegistered++
-         guestCount++
-
-         if (guestCount != 9) {
-             nextGuest()
-         } else {
-             nextFragment()
-         }
+         _guestRegistered.value = (guestRegistered.value)?.plus(1)
+         _guestCount.value = (guestCount.value)?.plus(1)
+         nextGuest()
     }
 
      fun onNoGuestClicked() {
-         currentGuest++
-         guestCount++
-
-         if (guestCount != 9) {
-             nextGuest()
-         } else {
-             nextFragment()
-         }
-
+         _guestCount.value = (guestCount.value)?.plus(1)
+         nextGuest()
     }
 
-    fun nextFragment() {
-        val action = RegisterFragmentDirections.registerToResult()
-
+    // Method for the game completed event
+    fun onGameFinish() {
+        _eventGameFinish.value = true
     }
 
+    // Method for the game completed event
+    fun onGameFinishComplete() {
+        _eventGameFinish.value = false
+    }
 
-//    @SuppressLint("SetTextI18n")
-//    private fun onYesGuestClicked() {
-//
-//        guestRegistered++
-//        currentGuest++
-//        guestCount++
-//
-//        if(guestCount == 9) {
-//            nextFragment()
-//        } else {
-//            showCurrentGuest(currentGuest)
-//            text_total.text = guestCount.toString() + " /8"
-//        }
-//
-//    }
-//
-//    private fun onNoGuestClicked() {
-//
-//        currentGuest++
-//        guestCount++
-//
-//        if(guestCount == 9) {
-//            nextFragment()
-//        } else {
-//            showCurrentGuest(currentGuest)
-//            text_total.text = guestCount.toString() + " /8"
-//        }
-//    }
-
-//    private fun showCurrentGuest(i : Int) {
-//
-//        text_name.text = allGuest[i].name
-//        text_phone.text = allGuest[i].phone
-//        text_email.text = allGuest[i].email
-//    }
-//
-//    private fun nextFragment() {
-//        val total_guest = currentGuest
-//        val guest_registered = guestRegistered
-//        val action = RegisterFragmentDirections.registerToResult(total_guest, guest_registered)
-//        findNavController().navigate(action)
-//    }
-//
     override fun onCleared() {
         super.onCleared()
         Log.i("RegisterViewModel", "GameviewModel destroyed")

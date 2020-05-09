@@ -36,6 +36,7 @@
         android:name="com.example.lab_5_android.ui.about.AboutFragment"
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_about" />
+
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.lab_5_android.ui.register.RegisterFragment"
@@ -44,8 +45,10 @@
         <action
             android:id="@+id/register_to_result"
             app:destination="@id/resultFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/nav_home" />
     </fragment>
+
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.example.lab_5_android.ui.result.ResultFragment"
@@ -53,13 +56,14 @@
         tools:layout="@layout/fragment_result" >
         <action
             android:id="@+id/result_to_register"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:popUpTo="@id/nav_home"/>
         <argument
-            android:name="guest_amount"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="guestTotal"
+            android:defaultValue="0"
+            app:argType="integer"/>
         <argument
-            android:name="guest_registered"
+            android:name="registered"
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>

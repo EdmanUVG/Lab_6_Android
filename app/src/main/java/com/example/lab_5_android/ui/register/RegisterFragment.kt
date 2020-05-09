@@ -39,12 +39,26 @@ class RegisterFragment : Fragment() {
         Log.i("RegisterFragment", "Called ViewModelProvider")
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
 
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = viewLifecycleOwner
+
         setHasOptionsMenu(true)
 
-        binding.buttonNext.setOnClickListener { onEndGame() }
+        // Setting up LiveData observation relationship
+        viewModel.guest.observe(viewLifecycleOwner, Observer { newGuest->
+            binding.textName.text = newGuest
+        })
 
-        updateScoreText()
-        updateWordText()
+        // Setting up LiveData observation relationship
+        viewModel.guestCount.observe(viewLifecycleOwner, Observer { newGuestCount->
+            binding.textTotal.text = newGuestCount.toString()
+        })
+
+        // Observer for the Game finished event
+        viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer { hasFinished->
+            if (hasFinished) gameFinished()
+        })
 
         return binding.root
     }
@@ -64,40 +78,26 @@ class RegisterFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
 
     // Method for button click handlers
     private fun onYesGuestClicked(){
         viewModel.onYesGuestClicked()
-        updateWordText()
-        updateScoreText()
     }
 
     private fun onNoGuestClicked(){
         viewModel.onNoGuestClicked()
-        updateScoreText()
-        updateWordText()
     }
 
     private fun onEndGame() {
         gameFinished()
     }
-    /**
-     * Called when the game is finished
-     */
+
+     //Called when the game is finished
     private fun gameFinished() {
-        findNavController().navigate(R.id.register_to_result)
-    }
-
-
-    // Methods for updating the UI
-    private fun updateWordText() {
-        binding.textName.text = viewModel.guest
-    }
-    private fun updateScoreText() {
-        binding.textTotal.text = viewModel.guestCount.toString()
+         val guestTotal = viewModel.guestCount.value?:0
+         val registered = viewModel.guestRegistered.value?:0
+         val action = RegisterFragmentDirections.registerToResult(guestTotal, registered)
+         findNavController().navigate(action)
+         viewModel.onGameFinishComplete()
     }
 }

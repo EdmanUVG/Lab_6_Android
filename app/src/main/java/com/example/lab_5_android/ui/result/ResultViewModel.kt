@@ -1,15 +1,37 @@
 package com.example.lab_5_android.ui.result
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.lab_5_android.ui.register.RegisterViewModel
 
-class ResultViewModel(finalGuest: Int) : ViewModel() {
+class ResultViewModel(finalGuests: Int, finalRegistered: Int) : ViewModel() {
 
     // All guest in the list
-    var guest = finalGuest
+    private val _guest = MutableLiveData<Int>()
+    val guests: LiveData<Int>
+    get() = _guest
+
+    // Al registered guests
+    private val _registered = MutableLiveData<Int>()
+    val registered: LiveData<Int>
+    get() = _registered
+
+    private val _eventPlayAgain = MutableLiveData<Boolean>()
+    val eventPlayAgain: LiveData<Boolean>
+    get() = _eventPlayAgain
 
     init {
-        Log.i("ResultViewModel", "Final score is $finalGuest")
+        _guest.value = finalGuests
+        _registered.value = finalRegistered
+    }
+
+    fun onPlayAgain() {
+        _eventPlayAgain.value = true
+    }
+
+    fun onPlayAgainComplete() {
+        _eventPlayAgain.value = false
     }
 }

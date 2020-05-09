@@ -7,11 +7,11 @@ import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 
 import com.example.lab_5_android.R
 import com.example.lab_5_android.databinding.FragmentResultBinding
-import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_result.*
 
 class ResultFragment : Fragment() {
@@ -33,12 +33,30 @@ class ResultFragment : Fragment() {
             false
         )
 
-        viewModelFactory = ResultViewModelFactory(ResultFragmentArgs.fromBundle(requireArguments()).guestAmount)
+//        viewModelFactory = ResultViewModelFactory(ResultFragmentArgs.fromBundle(requireArguments()).guestTotal)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(ResultViewModel::class.java)
 
-        binding.textGuest.text = viewModel.guest.toString()
+        // Add observer for guests
+        viewModel.guests.observe(viewLifecycleOwner, Observer { newGuest ->
+            binding.textGuest.text = newGuest.toString()
+        })
+
+        // Add observer for registered
+        viewModel.registered.observe(viewLifecycleOwner, Observer { newGuest ->
+            binding.textRegistered.text = newGuest.toString()
+        })
+
+        binding.buttonRestart.setOnClickListener { viewModel.onPlayAgain() }
+
+        // Navigates back to game when button is pressed
+        viewModel.eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
+            if (playAgain) {
+                findNavController().navigate(ResultFragmentDirections.resultToRegister())
+                viewModel.onPlayAgainComplete()
+            }
+        })
 
         setHasOptionsMenu(true)
 
@@ -64,16 +82,16 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val total_guest : String = ResultFragmentArgs.fromBundle(requireArguments()).guestAmount.toString()
-        val guest_registered : String = ResultFragmentArgs.fromBundle(requireArguments()).guestRegistered.toString()
+//        val total_guest : String = ResultFragmentArgs.fromBundle(requireArguments()).guestAmount.toString()
+//        val guest_registered : String = ResultFragmentArgs.fromBundle(requireArguments()).guestRegistered.toString()
 
-        val wordGuest = "Invitados: "
-        val guests = "$wordGuest  $total_guest"
-        text_guest.text = guests
-
-        val wordRegistered = "Registrados: "
-        val registered = "$wordRegistered $guest_registered"
-        text_registered.text = registered
+//        val wordGuest = "Invitados: "
+//        val guests = "$wordGuest  $total_guest"
+//        text_guest.text = guests
+//
+//        val wordRegistered = "Registrados: "
+//        val registered = "$wordRegistered $guest_registered"
+//        text_registered.text = registered
 
 
         button_restart.setOnClickListener {
