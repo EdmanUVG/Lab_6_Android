@@ -19,16 +19,23 @@ class RegisterViewModel : ViewModel() {
     // Total of guest in our list
     var guestCount = 1;
 
+    // the current guest
+    var guest = ""
+
     class Guest(val name: String, val phone: String, val email: String, val registered: Boolean )
 
     // List of Guests
     private lateinit var guestList: MutableList<String>
 
-    guestList = mutableListOf(
-        "Andrei",
-        "Edman",
-        "Crisitan"
-    )
+    private fun resetLists() {
+        guestList = mutableListOf(
+            "Andrei",
+            "Edman",
+            "Crisitan",
+            "Marco"
+        )
+        guestList.shuffle()
+    }
 
 
 //    private val allGuest = listOf(
@@ -45,14 +52,19 @@ class RegisterViewModel : ViewModel() {
 
 
     init {
+        resetLists()
+        nextGuest()
 //        showCurrentGuest()
     }
 
     private fun nextGuest() {
-//        if()
+        if (!guestList.isEmpty()) {
+            // Select and remove a guest from the list
+            guest = guestList.removeAt(0)
+        }
     }
 
-    private fun onYesGuestClicked() {
+     fun onYesGuestClicked() {
 
         guestRegistered++
         guestCount++
@@ -60,7 +72,7 @@ class RegisterViewModel : ViewModel() {
 
     }
 
-    private fun onNoGuestClicked() {
+     fun onNoGuestClicked() {
         currentGuest++
         guestCount++
         nextGuest()
@@ -109,8 +121,8 @@ class RegisterViewModel : ViewModel() {
 //        findNavController().navigate(action)
 //    }
 //
-//    override fun onCleared() {
-//        super.onCleared()
-//        Log.i("RegisterViewModel", "GameviewModel destroyed")
-//    }
+    override fun onCleared() {
+        super.onCleared()
+        Log.i("RegisterViewModel", "GameviewModel destroyed")
+    }
 }

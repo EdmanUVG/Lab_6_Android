@@ -24,12 +24,6 @@ class RegisterFragment : Fragment() {
 
     private lateinit var binding : FragmentRegisterBinding
 
-    private lateinit var guestList : GuestList
-    private lateinit var guests : ArrayList<Guest>
-
-
-
-
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?,
                                 savedInstanceState: Bundle?): View? {
 
@@ -73,61 +67,26 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        text_total.text = guestCount.toString() + " /8"
-//
-//        showCurrentGuest(currentGuest)
     }
 
     // Method for button click handlers
     private fun onYesGuestClicked(){
-
+        viewModel.onYesGuestClicked()
+        updateWordText()
+        updateScoreText()
     }
 
     private fun onNoGuestClicked(){
-
+        viewModel.onNoGuestClicked()
+        updateScoreText()
+        updateWordText()
     }
 
-//    @SuppressLint("SetTextI18n")
-//    private fun onYesGuestClicked() {
-//
-//        guestRegistered++
-//        currentGuest++
-//        guestCount++
-//
-//        if(guestCount == 9) {
-//            nextFragment()
-//        } else {
-//            showCurrentGuest(currentGuest)
-//            text_total.text = guestCount.toString() + " /8"
-//        }
-//
-//    }
-//
-//    private fun onNoGuestClicked() {
-//
-//        currentGuest++
-//        guestCount++
-//
-//        if(guestCount == 9) {
-//            nextFragment()
-//        } else {
-//            showCurrentGuest(currentGuest)
-//            text_total.text = guestCount.toString() + " /8"
-//        }
-//    }
-
-//    private fun showCurrentGuest(i : Int) {
-//
-//        text_name.text = allGuest[i].name
-//        text_phone.text = allGuest[i].phone
-//        text_email.text = allGuest[i].email
-//    }
-//
-//    private fun nextFragment() {
-//        val total_guest = currentGuest
-//        val guest_registered = guestRegistered
-//        val action = RegisterFragmentDirections.registerToResult(total_guest, guest_registered)
-//        findNavController().navigate(action)
-//    }
-
+    // Methods for updating the UI
+    private fun updateWordText() {
+        binding.textName.text = viewModel.guest
+    }
+    private fun updateScoreText() {
+        binding.textTotal.text = viewModel.guestCount.toString()
+    }
 }
