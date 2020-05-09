@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.lab_5_android.R
 import com.example.lab_5_android.data.Guest
@@ -35,20 +36,19 @@ class RegisterFragment : Fragment() {
             false
         )
 
+        Log.i("RegisterFragment", "Called ViewModelProvider")
+        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+
         setHasOptionsMenu(true)
+
+        binding.buttonNext.setOnClickListener { onEndGame() }
+
+        updateScoreText()
+        updateWordText()
 
         return binding.root
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        binding.lifecycleOwner = this
-
-        Log.i("RegisterFragment", "Called ViewModelProvider")
-        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -81,6 +81,17 @@ class RegisterFragment : Fragment() {
         updateScoreText()
         updateWordText()
     }
+
+    private fun onEndGame() {
+        gameFinished()
+    }
+    /**
+     * Called when the game is finished
+     */
+    private fun gameFinished() {
+        findNavController().navigate(R.id.register_to_result)
+    }
+
 
     // Methods for updating the UI
     private fun updateWordText() {

@@ -1,7 +1,9 @@
 package com.example.lab_5_android.ui.register
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent.getActivity
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -65,18 +67,33 @@ class RegisterViewModel : ViewModel() {
     }
 
      fun onYesGuestClicked() {
+         guestRegistered++
+         guestCount++
 
-        guestRegistered++
-        guestCount++
-        nextGuest()
-
+         if (guestCount != 9) {
+             nextGuest()
+         } else {
+             nextFragment()
+         }
     }
 
      fun onNoGuestClicked() {
-        currentGuest++
-        guestCount++
-        nextGuest()
+         currentGuest++
+         guestCount++
+
+         if (guestCount != 9) {
+             nextGuest()
+         } else {
+             nextFragment()
+         }
+
     }
+
+    fun nextFragment() {
+        val action = RegisterFragmentDirections.registerToResult()
+
+    }
+
 
 //    @SuppressLint("SetTextI18n")
 //    private fun onYesGuestClicked() {

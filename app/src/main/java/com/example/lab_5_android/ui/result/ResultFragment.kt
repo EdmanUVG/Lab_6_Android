@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
 import com.example.lab_5_android.R
+import com.example.lab_5_android.databinding.FragmentResultBinding
 import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_result.*
 
@@ -16,18 +18,31 @@ class ResultFragment : Fragment() {
 
     private lateinit var viewModel: ResultViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_result, container, false)
-    }
+    private lateinit var viewModelFactory: ResultViewModelFactory
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
-        // TODO: Use the ViewModel
+    private lateinit var binding: FragmentResultBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                                savedInstanceState: Bundle?): View? {
+
+        // Inflate view and obtain an instance of the binding class
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_result,
+            container,
+            false
+        )
+
+        viewModelFactory = ResultViewModelFactory(ResultFragmentArgs.fromBundle(requireArguments()).guestAmount)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(ResultViewModel::class.java)
+
+        binding.textGuest.text = viewModel.guest.toString()
+
+        setHasOptionsMenu(true)
+
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
