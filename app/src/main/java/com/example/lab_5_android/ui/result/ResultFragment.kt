@@ -33,15 +33,15 @@ class ResultFragment : Fragment() {
             false
         )
 
-//        viewModelFactory = ResultViewModelFactory(ResultFragmentArgs.fromBundle(requireArguments()).guestTotal)
+        viewModelFactory = ResultViewModelFactory(ResultFragmentArgs.fromBundle(requireArguments()).guestTotal)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(ResultViewModel::class.java)
 
         // Add observer for guests
-        viewModel.guests.observe(viewLifecycleOwner, Observer { newGuest ->
-            binding.textGuest.text = newGuest.toString()
-        })
+//        viewModel.guests.observe(viewLifecycleOwner, Observer { newGuest ->
+//            binding.textGuest.text = newGuest.toString()
+//        })
 
         // Add observer for registered
         viewModel.registered.observe(viewLifecycleOwner, Observer { newGuest ->
@@ -49,12 +49,21 @@ class ResultFragment : Fragment() {
         })
 
         binding.buttonRestart.setOnClickListener { viewModel.onPlayAgain() }
+        binding.buttonSeeGuest.setOnClickListener { viewModel.onSeeGuests() }
 
         // Navigates back to game when button is pressed
         viewModel.eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
             if (playAgain) {
                 findNavController().navigate(ResultFragmentDirections.resultToRegister())
                 viewModel.onPlayAgainComplete()
+            }
+        })
+
+        // Display Toas with all users registration information
+        viewModel.eventSeeGuests.observe(viewLifecycleOwner, Observer { seeGuests ->
+            if (seeGuests) {
+                Toast.makeText(activity, "Users registerd", Toast.LENGTH_SHORT).show()
+                viewModel.onSeeGuestsComplete()
             }
         })
 
@@ -81,26 +90,7 @@ class ResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        val total_guest : String = ResultFragmentArgs.fromBundle(requireArguments()).guestAmount.toString()
-//        val guest_registered : String = ResultFragmentArgs.fromBundle(requireArguments()).guestRegistered.toString()
-
-//        val wordGuest = "Invitados: "
-//        val guests = "$wordGuest  $total_guest"
-//        text_guest.text = guests
-//
-//        val wordRegistered = "Registrados: "
-//        val registered = "$wordRegistered $guest_registered"
-//        text_registered.text = registered
-
-
-        button_restart.setOnClickListener {
-            findNavController().navigate(R.id.result_to_register)
-        }
-
-        button_see_guest.setOnClickListener {
-            Toast.makeText(activity, "No", Toast.LENGTH_SHORT).show()
-        }
+        val guest_total: String = ResultFragmentArgs.fromBundle(requireArguments()).guestTotal.toString()
+        text_guest.text = guest_total
     }
-
 }
