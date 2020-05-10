@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 import com.example.lab_5_android.R
@@ -35,8 +36,7 @@ class ResultFragment : Fragment() {
 
         viewModelFactory = ResultViewModelFactory(ResultFragmentArgs.fromBundle(requireArguments()).guestTotal)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(ResultViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ResultViewModel::class.java)
 
         // Add observer for guests
 //        viewModel.guests.observe(viewLifecycleOwner, Observer { newGuest ->

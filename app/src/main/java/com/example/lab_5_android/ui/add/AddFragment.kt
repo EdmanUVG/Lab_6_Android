@@ -37,16 +37,7 @@ class AddFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_save) {
-
-            val name: String = editText_name.text.toString()
-            val phone: String = editText_phone.text.toString()
-            val email: String = editText_email.text.toString()
-
-            textname.text = name
-            textphone.text = phone
-            text_email.text = email
-
-
+            
         }
         return super.onOptionsItemSelected(item)
     }

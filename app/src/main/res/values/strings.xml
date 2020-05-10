@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">Lab_5_Android</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -6,6 +8,12 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+<!--    Output to TextView styled with a little HTML-->
+    <string name="titulo">![CDATA[<h3>Here is your guest data</h3>>]]</string>
+    <string name="name">![CDATA[<b>Nombre:</b>>]]</string>
+    <string name="phone">![CDATA[<b>Telefono:</b>>]]</string>
+    <string name="email">![CDATA[<b>Correo:</b>>]]</string>
 
     <string name="title">Zevent</string>
     <string name="about_description">Soy una aplicacion dedicada a la administracion de invitados

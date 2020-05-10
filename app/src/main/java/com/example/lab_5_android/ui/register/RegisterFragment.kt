@@ -1,23 +1,15 @@
 package com.example.lab_5_android.ui.register
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.lab_5_android.R
-import com.example.lab_5_android.data.Guest
-import com.example.lab_5_android.data.GuestList
 import com.example.lab_5_android.databinding.FragmentRegisterBinding
-import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : Fragment() {
 

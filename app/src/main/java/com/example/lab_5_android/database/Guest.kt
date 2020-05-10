@@ -6,15 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName="guest_count_table")
 data class Guest (
-    @PrimaryKey(autoGenerate=true)
-    var guestId: Long = 0L,
+    @PrimaryKey
+    var guestId: Long,
 
     @ColumnInfo(name="name")
-    var name:String = "Edman Cota",
+    var name:String,
 
     @ColumnInfo(name="phone_number")
-    var phone: String = "23764567",
+    var phone: String,
 
     @ColumnInfo(name="email_address")
-    var email : String = "edmancota@gmail.com"
+    var email : String
 )
