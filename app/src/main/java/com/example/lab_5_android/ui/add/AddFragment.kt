@@ -70,5 +70,4 @@ class AddFragment : BaseFragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }

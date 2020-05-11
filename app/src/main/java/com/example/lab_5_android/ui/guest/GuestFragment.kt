@@ -11,14 +11,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.lab_5_android.R
 import com.example.lab_5_android.database.GuestDatabase
 import com.example.lab_5_android.databinding.FragmentGuestBinding
+import com.example.lab_5_android.ui.BaseFragment
+import com.example.lab_5_android.ui.GuestsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_guest.*
+import kotlinx.coroutines.launch
 
-class GuestFragment : Fragment() {
+class GuestFragment : BaseFragment() {
 
     private lateinit var guestViewModel: GuestViewModel
 
@@ -55,6 +59,20 @@ class GuestFragment : Fragment() {
 //        })
 
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        recycler_view_guests.setHasFixedSize(true)
+        recycler_view_guests.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+
+        launch {
+            context?.let {
+                val guests = GuestDatabase(it).getGuestDatabaseDao().getGuests()
+                recycler_view_guests.adapter = GuestsAdapter(guests)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

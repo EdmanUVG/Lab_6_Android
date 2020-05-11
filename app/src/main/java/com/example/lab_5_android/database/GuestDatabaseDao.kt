@@ -18,7 +18,7 @@ interface GuestDatabaseDao {
     @Query("SELECT * FROM guest_count_table ORDER BY guestId DESC LIMIT 1")
     suspend fun getGuest(): Guest?
 
-    @Query("SELECT * FROM guest_count_table")
+    @Query("SELECT * FROM guest_count_table ORDER BY guestId DESC")
     suspend fun getGuests(): List<Guest>
 
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
