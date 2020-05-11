@@ -47,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
             android:text="Start"
-            android:onClick="@{() -> guestViewModel.onStartTracking()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

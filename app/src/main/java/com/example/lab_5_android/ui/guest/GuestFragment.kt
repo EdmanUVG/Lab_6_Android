@@ -35,24 +35,24 @@ class GuestFragment : Fragment() {
             false
         )
 
-        val application = requireNotNull(this.activity).application
+//        val application = requireNotNull(this.activity).application
 
         // Create an instance of the ViewModel Factory
-        val dataSource = GuestDatabase.getInstance(application).guestDatabaseDao
-        val viewModelFactory = GuestViewModelFactory(dataSource, application)
+//        val dataSource = GuestDatabase.getInstance(application).guestDatabaseDao
+//        val viewModelFactory = GuestViewModelFactory(dataSource, application)
 
         // Get a reference to the ViewModel associated with this fragment
-         guestViewModel =
-            ViewModelProvider(this, viewModelFactory).get(GuestViewModel::class.java)
-
-        binding.setLifecycleOwner(this)
-
-        binding.guestViewModel = guestViewModel
+//         guestViewModel =
+//            ViewModelProvider(this, viewModelFactory).get(GuestViewModel::class.java)
+//
+//        binding.setLifecycleOwner(this)
+//
+//        binding.guestViewModel = guestViewModel
 
         // Setting up LiveData observation relationship
-        guestViewModel.guest_name.observe(viewLifecycleOwner, Observer { newGuest->
-            binding.textview.text = newGuest
-        })
+//        guestViewModel.guest_name.observe(viewLifecycleOwner, Observer { newGuest->
+//            binding.textview.text = newGuest
+//        })
 
         return binding.root
     }

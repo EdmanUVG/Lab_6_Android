@@ -71,7 +71,14 @@
         android:id="@+id/addFragment"
         android:name="com.example.lab_5_android.ui.add.AddFragment"
         android:label="add_fragment"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add" >
+        <action android:id="@+id/add_to_guests" app:destination="@+id/guestFragment"/>
+        <argument
+            android:name="Guest"
+            app:argType="boolean"
+            android:defaultValue="true" />
+    </fragment>
+
 
 
 </navigation>

@@ -6,19 +6,21 @@ import androidx.room.*
 @Dao
 interface GuestDatabaseDao {
 
+    @Insert
+    suspend fun addGuest(guest:Guest)
+
     @Query ("SELECT * from guest_count_table WHERE guestId = :key")
-    fun getGuestById(key:Long):Guest?
+    suspend fun getGuestById(key:Long):Guest?
 
     @Delete
-    fun deleteGuest(guest:Guest)
+    suspend fun deleteGuest(guest:Guest)
 
     @Query("SELECT * FROM guest_count_table ORDER BY guestId DESC LIMIT 1")
-    fun getGuest(): Guest?
+    suspend fun getGuest(): Guest?
 
     @Query("SELECT * FROM guest_count_table")
-    fun getGuests(): LiveData<List<Guest>>
+    suspend fun getGuests(): List<Guest>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrUpdateGuest(guest: Guest): Long
-
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertOrUpdateGuest(guest: Guest): Long
 }

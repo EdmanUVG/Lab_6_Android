@@ -5,33 +5,28 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Guest::class], version = 3, exportSchema = false)
+@Database(entities = [Guest::class], version = 5, exportSchema = false)
 abstract class GuestDatabase: RoomDatabase() {
 
-    abstract val guestDatabaseDao: GuestDatabaseDao
+    abstract fun getGuestDatabaseDao() : GuestDatabaseDao
 
     companion object {
 
-        @Volatile
-        private var INSTANCE: GuestDatabase? = null
+        @Volatile private var instance : GuestDatabase? = null
+        private val LOCK = Any()
 
-        fun getInstance(context: Context): GuestDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        GuestDatabase::class.java,
-                        "guest_database"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-                    INSTANCE = instance
-                }
-                return instance
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK){
+            instance ?: buildDatabase(context).also {
+                instance = it
             }
         }
+
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(
+            context.applicationContext,
+            GuestDatabase::class.java,
+            "notedatabase"
+        ).build()
+
     }
 
 }
