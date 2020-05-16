@@ -14,7 +14,11 @@ data class Guest (
     var phone: String,
 
     @ColumnInfo(name="email_address")
-    var email : String
+    var email : String,
+
+    @ColumnInfo(name="is_registered")
+    var registered : Boolean
+
 ): Serializable {
     @PrimaryKey(autoGenerate = true)
     var guestId: Long = 0L

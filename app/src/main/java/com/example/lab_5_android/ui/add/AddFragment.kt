@@ -3,38 +3,55 @@ package com.example.lab_5_android.ui.add
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import android.widget.EditText
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
-import androidx.navigation.Navigation.findNavController
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 import com.example.lab_5_android.R
 import com.example.lab_5_android.database.Guest
 import com.example.lab_5_android.database.GuestDatabase
-import com.example.lab_5_android.ui.BaseFragment
+import com.example.lab_5_android.databinding.FragmentAddBinding
+import com.example.lab_5_android.databinding.FragmentGuestBinding
+import com.example.lab_5_android.ui.guest.GuestViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add.*
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.fragment_register.*
 
-class AddFragment : BaseFragment() {
+
+class AddFragment : Fragment() {
 
 
     private lateinit var viewModel: AddViewModel
 
     private var guest: Guest? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_add, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                                savedInstanceState: Bundle?): View? {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AddViewModel::class.java)
-        // TODO: Use the ViewModel
+        val binding: FragmentAddBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_add,
+            container,
+            false
+        )
+
+        setHasOptionsMenu(true)
+
+        val application = requireNotNull(this.activity).application
+
+
+        //Create an instance of the ViewModel Factory
+        val dataSource = GuestDatabase.getInstance(application).guestDatabaseDao
+        val viewModelFactory = AddViewModelFactory( dataSource)
+
+        viewModel =
+            ViewModelProvider(this, viewModelFactory).get(AddViewModel::class.java)
+
+        binding.addViewModel = viewModel
+
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -44,28 +61,30 @@ class AddFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_save) {
+            val fieldName = editText_name.text.toString().trim()
+            val fieldPhone = editText_phone.text.toString().trim()
+            val fieldEmail = editText_email.text.toString().trim()
 
-            val guestName = editText_name.text.toString().trim()
-            val guestPhone = editText_phone.text.toString().trim()
-            val guestEmail = editText_email.text.toString().trim()
+            if (fieldName.isEmpty() && fieldPhone.isEmpty() && fieldEmail.isEmpty()) {
+                editText_name.error = "Nombre requerido"
+                editText_name.requestFocus()
+                editText_phone.error = "Telefono requerido"
+                editText_phone.requestFocus()
+                editText_email.error = "Correo requerido"
+                editText_email.requestFocus()
+            }else if (fieldName.isEmpty()) {
+                editText_name.error = "Nombre requerido"
+                editText_name.requestFocus()
+            }else if (fieldPhone.isEmpty()) {
+                editText_phone.error = "Telefono requerido"
+                editText_phone.requestFocus()
+            }else if (fieldEmail.isEmpty()) {
+                editText_email.error = "Correo requerido"
+                editText_email.requestFocus()
+            } else {
+                viewModel.onInsertGuest(fieldName, fieldPhone, fieldEmail)
 
-            launch {
-
-                context?.let {
-                    val mNote = Guest( guestName, guestPhone, guestEmail)
-
-                    if (guest == null) {
-                        GuestDatabase(it).getGuestDatabaseDao().addGuest(mNote)
-                        Toast.makeText(activity, "Saved", Toast.LENGTH_LONG).show()
-                    } else {
-                        mNote.guestId = guest!!.guestId
-                        GuestDatabase(it).getGuestDatabaseDao().addGuest(mNote)
-                        Toast.makeText(activity, "NOte updated", Toast.LENGTH_LONG).show()
-                    }
-
-                    val action = AddFragmentDirections.addToGuests()
-                    findNavController().navigate(action)
-                }
+                findNavController().navigate(R.id.add_to_guests)
             }
         }
         return super.onOptionsItemSelected(item)

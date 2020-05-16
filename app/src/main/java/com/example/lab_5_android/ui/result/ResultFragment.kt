@@ -48,7 +48,7 @@ class ResultFragment : Fragment() {
             binding.textRegistered.text = newGuest.toString()
         })
 
-        binding.buttonRestart.setOnClickListener { viewModel.onPlayAgain() }
+        binding.buttonRestart.setOnClickListener  { viewModel.onPlayAgain() }
         binding.buttonSeeGuest.setOnClickListener { viewModel.onSeeGuests() }
 
         // Navigates back to game when button is pressed

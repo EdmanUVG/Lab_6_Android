@@ -3,9 +3,7 @@ package com.example.lab_5_android.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -35,6 +33,8 @@ class HomeFragment : Fragment() {
             false
         )
 
+        setHasOptionsMenu(true)
+
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         // Set the viewmodel for databinding - this allows the bound layout access
@@ -52,5 +52,10 @@ class HomeFragment : Fragment() {
     private fun onGoToRegisterFragment() {
         findNavController().navigate(R.id.action_nav_home_to_registerFragment)
         viewModel.onGoToRegisterComplete()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main, menu)
     }
 }

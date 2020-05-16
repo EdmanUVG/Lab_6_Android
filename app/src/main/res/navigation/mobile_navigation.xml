@@ -70,15 +70,32 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.example.lab_5_android.ui.add.AddFragment"
-        android:label="add_fragment"
-        tools:layout="@layout/fragment_add" >
-        <action android:id="@+id/add_to_guests" app:destination="@+id/guestFragment"/>
+        android:label="@string/text_agregar_invitado"
+        tools:layout="@layout/fragment_add">
+        <action
+            android:id="@+id/add_to_guests"
+            app:destination="@+id/guestFragment" />
         <argument
             android:name="Guest"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
-
+    <fragment
+        android:id="@+id/rolesFragment"
+        android:name="com.example.lab_5_android.ui.roles.RolesFragment"
+        android:label="Roles" >
+        <action
+            android:id="@+id/roles_to_addRoles"
+            app:destination="@id/addRolesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addRolesFragment"
+        android:name="com.example.lab_5_android.ui.roles.AddRolesFragment"
+        android:label="@string/text_agregar_rol">
+        <action
+            android:id="@+id/addRoles_to_roles"
+            app:destination="@id/rolesFragment" />
+    </fragment>
 
 
 </navigation>

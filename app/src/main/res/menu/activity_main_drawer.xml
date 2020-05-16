@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_person"
             android:title="@string/menu_guest" />
         <item
+            android:id="@+id/rolesFragment"
+            android:icon="@drawable/ic_insert_drive"
+            android:title="@string/menu_roles" />
+        <item
             android:id="@+id/aboutFragment"
             android:icon="@drawable/ic_info"
             android:title="@string/menu_about" />

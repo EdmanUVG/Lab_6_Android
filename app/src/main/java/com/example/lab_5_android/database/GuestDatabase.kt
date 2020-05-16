@@ -4,29 +4,38 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-@Database(entities = [Guest::class], version = 5, exportSchema = false)
-abstract class GuestDatabase: RoomDatabase() {
+@Database(entities = [Guest::class], version = 8, exportSchema = false)
+public abstract class GuestDatabase: RoomDatabase() {
 
-    abstract fun getGuestDatabaseDao() : GuestDatabaseDao
+    abstract val guestDatabaseDao: GuestDatabaseDao
 
     companion object {
 
-        @Volatile private var instance : GuestDatabase? = null
-        private val LOCK = Any()
+        @Volatile
+        private var INSTANCE: GuestDatabase? = null
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK){
-            instance ?: buildDatabase(context).also {
-                instance = it
+        fun getInstance(context: Context): GuestDatabase {
+
+            synchronized(this) {
+                var instance = INSTANCE
+                if (instance == null) {
+                    instance = Room.databaseBuilder (
+                        context.applicationContext,
+                        GuestDatabase::class.java,
+                        "guest_database"
+                    )
+                        .fallbackToDestructiveMigration()
+                        .build()
+
+                    INSTANCE = instance
+                }
+                return instance
             }
         }
-
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(
-            context.applicationContext,
-            GuestDatabase::class.java,
-            "notedatabase"
-        ).build()
-
     }
-
 }

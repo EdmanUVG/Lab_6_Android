@@ -9,23 +9,23 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-<!--    Output to TextView styled with a little HTML-->
-    <string name="titulo">![CDATA[<h3>Here is your guest data</h3>>]]</string>
-    <string name="name">![CDATA[<b>Nombre:</b>>]]</string>
-    <string name="phone">![CDATA[<b>Telefono:</b>>]]</string>
-    <string name="email">![CDATA[<b>Correo:</b>>]]</string>
-
     <string name="title">Zevent</string>
     <string name="about_description">Soy una aplicacion dedicada a la administracion de invitados
     para todo evento privado</string>
     <string name="menu_home">Inicio</string>
     <string name="menu_about">Acerca de</string>
     <string name="menu_guest">Invitados</string>
+    <string name="menu_roles">Roles</string>
 
     <string name="home_second">Home Second</string>
     <string name="text_zvent_email">support@zvent.com</string>
     <string name="text_zvent_title">Zvent Organizing App</string>
     <string name="text_btn_iniciar">Iniciar</string>
+    <string name="text_agregar_invitado">Agregar invitado</string>
+    <string name="text_agregar_rol">Agregar rol</string>
+    <string name="text_seleccionar_rol">Seleccione el rol</string>
+    <string name="text_seleccionar_orden">Seleccione el órden</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -37,9 +37,15 @@
     <string name="text_restart">Reiniciar</string>
     <string name="text_see_guest">Ver invitados</string>
 
+    <string name="text_nombre_requerido">Nombre requerido</string>
+    <string name="text_telefono_requerido">Teléfono requerido</string>
+    <string name="text_correo_requerido">Correo electrónico requerido</string>
+
+
     <string name="text_help">Ayuda</string>
     <string name="text_ayuda_description">Encuentra respuestas a tus preguntas de Zvent aqui</string>
     <string name="edit_text_name">Ingrese el nombre</string>
     <string name="edit_text_phone">Ingrese el teléfono</string>
     <string name="edit_text_email">Ingrese el correo electrónico</string>
+    <string name="edit_text_description">Ingrese la descripción</string>
 </resources>
