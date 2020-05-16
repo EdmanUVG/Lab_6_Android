@@ -23,11 +23,11 @@ class AddViewModel(dataSource: GuestDatabaseDao) : ViewModel() {
     }
 
     fun onInsertGuest(name: String, phone: String, email: String) {
-        uiScope.launch {
-            withContext(Dispatchers.IO) {
-                val guest = Guest(name, phone, email, false)
-                database.addGuest(guest)
-            }
-        }
+//        uiScope.launch {
+//            withContext(Dispatchers.IO) {
+//                val guest = Guest(name, phone, email, false)
+//                database.addGuest(guest)
+//            }
+//        }
     }
 }

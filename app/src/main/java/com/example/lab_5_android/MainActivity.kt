@@ -24,6 +24,12 @@ class MainActivity() : AppCompatActivity() {
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
+        val topLevelDestinations = setOf(
+            R.id.nav_home,
+            R.id.guestFragment,
+            R.id.rolesFragment,
+            R.id.aboutFragment)
+
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -31,11 +37,13 @@ class MainActivity() : AppCompatActivity() {
         drawerLayout = binding.drawerLayout
 
         val navController = this.findNavController(R.id.nav_host_fragment)
-        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
-        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        appBarConfiguration = AppBarConfiguration.Builder(topLevelDestinations)
+            .setDrawerLayout(drawerLayout)
+            .build()
 
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         navController.addOnDestinationChangedListener { nc: NavController, nd:NavDestination, _:Bundle? ->
-            if (nd.id == nc.graph.startDestination) {
+            if (nd.id in topLevelDestinations) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
             } else {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -43,7 +51,6 @@ class MainActivity() : AppCompatActivity() {
         }
         NavigationUI.setupWithNavController(binding.navView, navController)
     }
-    
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.nav_host_fragment)

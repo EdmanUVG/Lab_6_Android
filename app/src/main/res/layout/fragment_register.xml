@@ -15,33 +15,16 @@
         tools:context=".ui.register.RegisterFragment">
 
         <TextView
-            android:id="@+id/text_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="1"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="222dp" />
-
-        <TextView
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:textColor="@android:color/black"
             android:textSize="30sp"
+            android:text="@{registerViewModel.currentGuest.guest.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline3"
-            tools:text="Name"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_phone"
@@ -51,10 +34,10 @@
             android:textAlignment="textStart"
             android:textColor="@android:color/black"
             android:textSize="20sp"
+            android:text="@{registerViewModel.currentGuest.guest.phone}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_name"
-            tools:text="Phone"/>
+            app:layout_constraintTop_toBottomOf="@+id/text_name"/>
 
         <TextView
             android:id="@+id/text_email"
@@ -64,20 +47,22 @@
             android:textAlignment="textStart"
             android:textColor="@android:color/black"
             android:textSize="20sp"
+            android:text="@{registerViewModel.currentGuest.guest.email}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_phone"
-            tools:text="Email"/>
+            app:layout_constraintTop_toBottomOf="@+id/text_phone"/>
 
         <TextView
-            android:id="@+id/text_total_all_guest"
+            android:id="@+id/text_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text=" / 1"
-            android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/text_total"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="15dp"
+            android:text="@{registerViewModel.currentGuest.role}"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_email" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
