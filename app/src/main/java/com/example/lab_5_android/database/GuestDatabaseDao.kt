@@ -25,8 +25,8 @@ interface GuestDatabaseDao {
     fun getGuestsWithRole(): LiveData<List<GuestWithRole>>
 
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun addGuest(guest:Guest)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addGuest(guest:Guest)
 
 //    @Query ("SELECT * from guest_count_table WHERE guestId = :key")
 //    fun getGuestById(key:Long):Guest?
