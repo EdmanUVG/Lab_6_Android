@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Guest::class, GuestRole::class], version = 9, exportSchema = false)
+@Database(entities = [Guest::class, GuestRole::class], version = 10, exportSchema = false)
 public abstract class GuestDatabase: RoomDatabase() {
 
     abstract val guestDatabaseDao: GuestDatabaseDao

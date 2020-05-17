@@ -19,7 +19,7 @@ class RolesViewModel(val database: GuestRoleDatabaseDao) : ViewModel() {
     private fun buildGuestsText(roles: List<GuestRole>) : String{
         val rolesText = StringBuilder()
         for (rol in roles){
-            rolesText.append("Role: ${rol.roleId}\nNombre: ${rol.role}\n\n")
+            rolesText.append("Role: ${rol.roleId}\nNombre: ${rol.role}\nDescripcion: ${rol.description}\nOrden: ${rol.order}\n\n")
         }
         return rolesText.toString()
     }

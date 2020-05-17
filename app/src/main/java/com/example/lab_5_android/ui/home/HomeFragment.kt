@@ -58,4 +58,11 @@ class HomeFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main, menu)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_about) {
+            findNavController().navigate(R.id.action_nav_home_to_aboutFragment)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

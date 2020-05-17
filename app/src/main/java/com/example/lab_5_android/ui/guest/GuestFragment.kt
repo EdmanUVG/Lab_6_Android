@@ -12,48 +12,47 @@ import androidx.navigation.fragment.findNavController
 import com.example.lab_5_android.R
 import com.example.lab_5_android.database.GuestDatabase
 import com.example.lab_5_android.databinding.FragmentGuestBinding
-import com.example.lab_5_android.ui.GuestsAdapter
 import kotlinx.android.synthetic.main.fragment_guest.*
 
 class GuestFragment : Fragment() {
 
-    private lateinit var guestViewModel: GuestViewModel
+    private lateinit var viewModelFactory: GuestViewModelFactory
+    private lateinit var viewModel: GuestViewModel
+
+    private lateinit var binding: FragmentGuestBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
 
-        val binding: FragmentGuestBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_guest,
             container,
             false
         )
 
+
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        binding.lifecycleOwner = this
+
         val application = requireNotNull(this.activity).application
 
-         //Create an instance of the ViewModel Factory
+        //Create an instance of the ViewModel Factory
         val dataSource = GuestDatabase.getInstance(application).guestDatabaseDao
-        val viewModelFactory = GuestViewModelFactory(dataSource, application)
+        viewModelFactory = GuestViewModelFactory(dataSource)
 
-         //Get a reference to the ViewModel associated with this fragment
-         guestViewModel =
-            ViewModelProvider(this, viewModelFactory).get(GuestViewModel::class.java)
+        //Get a reference to the ViewModel associated with this fragment
+        viewModel = ViewModelProvider(this, viewModelFactory).get(GuestViewModel::class.java)
 
 
         // To use the View Model with dta binding, you have to explicitly
         // give the binding object a reference to it.
-        binding.guestViewModel = guestViewModel
-
-        val adapter = GuestsAdapter()
-        binding.guestList.adapter = adapter
-
-        guestViewModel.allGuests.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.data = it
-            }
-        })
-
-        return binding.root
+        binding.viewModel = viewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

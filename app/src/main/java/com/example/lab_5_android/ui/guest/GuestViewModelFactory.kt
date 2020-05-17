@@ -7,13 +7,11 @@ import com.example.lab_5_android.database.GuestDatabaseDao
 import java.lang.IllegalArgumentException
 import javax.sql.CommonDataSource
 
-class GuestViewModelFactory(
-    private val dataSource: GuestDatabaseDao,
-    private val application: Application) : ViewModelProvider.Factory {
+class GuestViewModelFactory(private val database: GuestDatabaseDao) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(GuestViewModel::class.java)) {
-            return GuestViewModel(dataSource, application) as T
+            return GuestViewModel(database) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

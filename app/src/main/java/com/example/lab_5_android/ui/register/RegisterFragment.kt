@@ -48,8 +48,7 @@ class RegisterFragment : Fragment() {
         val viewModelFactory = RegisterViewModelFactory(dataSource)
 
         // Get a reference to the ViewModel associated with this fragment
-        registerViewModel =
-            ViewModelProvider(this, viewModelFactory).get(RegisterViewModel::class.java)
+        registerViewModel = ViewModelProvider(this, viewModelFactory).get(RegisterViewModel::class.java)
 
         // To use the View Model with dta binding, you have to explicitly
         // give the binding object a reference to it.
@@ -87,13 +86,10 @@ class RegisterFragment : Fragment() {
             registerViewModel.updateCurrentGuest()
         }
 
+        if(item.itemId == R.id.action_no) {
+            registerViewModel.updateCurrentGuestNo()
+        }
 
-//        if (item.itemId == R.id.action_yes) {
-//            onYesGuestClicked()
-//        }
-//        if (item.itemId == R.id.action_no) {
-//            onNoGuestClicked()
-//        }
         return super.onOptionsItemSelected(item)
     }
 

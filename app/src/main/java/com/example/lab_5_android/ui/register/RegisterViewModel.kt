@@ -1,5 +1,6 @@
 package com.example.lab_5_android.ui.register
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,7 @@ class RegisterViewModel(val database: GuestDatabaseDao) : ViewModel() {
     var guestCount = 1
         private set
 
+    // Total of Guest in our database
     var totalCount = 0
         private set
 
@@ -32,7 +34,7 @@ class RegisterViewModel(val database: GuestDatabaseDao) : ViewModel() {
         if (guests.isEmpty()) {
             _registeredComplete.value = true
         } else {
-            currentGuest.value = guests[0]
+            currentGuest.value = guests[guestCount - 1]
         }
     }
 
@@ -50,11 +52,35 @@ class RegisterViewModel(val database: GuestDatabaseDao) : ViewModel() {
                     name = it.guest.name,
                     phone = it.guest.phone,
                     email = it.guest.email,
-                    registered = it.guest.registered,
+                    registered = true,
                     role_id = it.guest.role_id)
             })
+            Log.i("@Edman", "True")
         }
     }
+
+    fun updateCurrentGuestNo() {
+        val guestWithRole = currentGuest.value
+        guestCount++
+        if (totalCount >= guestCount) {
+            currentGuest.value = guests.value?.get(guestCount -1)
+        } else {
+            _registeredComplete.value = true
+        }
+        uiScope.launch {
+            update(guestWithRole?.let {
+                Guest(guestId = it.guest.guestId,
+                    name = it.guest.name,
+                    phone = it.guest.phone,
+                    email = it.guest.email,
+                    registered = false,
+                    role_id = it.guest.role_id)
+            })
+            Log.i("@Edman", "False")
+        }
+    }
+
+
 
     private suspend fun update(guest: Guest?) {
         withContext(Dispatchers.IO) {

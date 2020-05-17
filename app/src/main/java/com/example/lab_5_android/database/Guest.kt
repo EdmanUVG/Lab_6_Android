@@ -1,5 +1,6 @@
 package com.example.lab_5_android.database
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -20,16 +21,13 @@ data class Guest (
     @ColumnInfo(name = "id")
     var guestId: Long = 0L,
 
-    @ColumnInfo(name="name")
+    @NonNull
     var name:String,
 
-    @ColumnInfo(name="phone_number")
     var phone: String,
 
-    @ColumnInfo(name="email_address")
     var email : String,
 
-    @ColumnInfo(name="is_registered")
     var registered : Boolean,
 
     var role_id: Long = 0L

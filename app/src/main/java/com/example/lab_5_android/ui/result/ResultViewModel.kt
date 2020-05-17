@@ -3,20 +3,27 @@ package com.example.lab_5_android.ui.result
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.example.lab_5_android.database.GuestDatabaseDao
+import com.example.lab_5_android.database.GuestWithRole
 import com.example.lab_5_android.ui.register.RegisterViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
-class ResultViewModel(finalRegistered: Int) : ViewModel() {
+class ResultViewModel(val database: GuestDatabaseDao) : ViewModel() {
 
-    // All guest in the list
-    private val _guest = MutableLiveData<Int>()
-    val guests: LiveData<Int>
-    get() = _guest
+    var totalCount = database.getGuestCount()
 
-    // Al registered guests
-    private val _registered = MutableLiveData<Int>()
-    val registered: LiveData<Int>
-    get() = _registered
+    var totalRegistered = database.getGuestsRegistered()
+
+
+
+    // viewModelJob allows us to cancel all coroutines started by the ViewModel
+    private val viewModelJob = Job()
+
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // Event for play again button
     private val _eventPlayAgain = MutableLiveData<Boolean>()
@@ -28,11 +35,6 @@ class ResultViewModel(finalRegistered: Int) : ViewModel() {
     val eventSeeGuests: LiveData<Boolean>
     get() = _eventSeeGuests
 
-
-    init {
-//        _guest.value = finalGuests
-        _registered.value = finalRegistered
-    }
 
     fun onPlayAgain() {
         _eventPlayAgain.value = true

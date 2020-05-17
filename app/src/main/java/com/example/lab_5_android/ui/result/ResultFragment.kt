@@ -1,5 +1,6 @@
 package com.example.lab_5_android.ui.result
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -12,14 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 import com.example.lab_5_android.R
+import com.example.lab_5_android.database.GuestDatabase
 import com.example.lab_5_android.databinding.FragmentResultBinding
+import com.example.lab_5_android.ui.register.RegisterViewModelFactory
 import kotlinx.android.synthetic.main.fragment_result.*
 
 class ResultFragment : Fragment() {
 
     private lateinit var viewModel: ResultViewModel
-
-    private lateinit var viewModelFactory: ResultViewModelFactory
 
     private lateinit var binding: FragmentResultBinding
 
@@ -34,19 +35,31 @@ class ResultFragment : Fragment() {
             false
         )
 
-        viewModelFactory = ResultViewModelFactory(ResultFragmentArgs.fromBundle(requireArguments()).guestTotal)
+        setHasOptionsMenu(true)
+
+        return binding.root
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val application = requireNotNull(this.activity).application
+
+        // Create an instance of the View Model Factory
+        val dataSource = GuestDatabase.getInstance(application).guestDatabaseDao
+        val viewModelFactory = ResultViewModelFactory(dataSource)
+
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ResultViewModel::class.java)
 
-        // Add observer for guests
-//        viewModel.guests.observe(viewLifecycleOwner, Observer { newGuest ->
-//            binding.textGuest.text = newGuest.toString()
-//        })
+        // To use the View Model with dta binding, you have to explicitly
+        // give the binding object a reference to it.
+        binding.viewModel = viewModel
 
-        // Add observer for registered
-        viewModel.registered.observe(viewLifecycleOwner, Observer { newGuest ->
-            binding.textRegistered.text = newGuest.toString()
-        })
+        // Specify the fragment view as the lifecycle owner of the binding.
+        // This is used so that the binding can observe LiveData updates
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.buttonRestart.setOnClickListener  { viewModel.onPlayAgain() }
         binding.buttonSeeGuest.setOnClickListener { viewModel.onSeeGuests() }
@@ -67,9 +80,14 @@ class ResultFragment : Fragment() {
             }
         })
 
-        setHasOptionsMenu(true)
+        viewModel.totalCount.observe(viewLifecycleOwner, Observer { totalCount ->
+            binding.textResult.text = "Invitados: " + totalCount.toString()
+        })
 
-        return binding.root
+        viewModel.totalRegistered.observe(viewLifecycleOwner, Observer { total ->
+            binding.textRegistered.text = "Registrado: " + total.toString()
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,9 +106,4 @@ class ResultFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val guest_total: String = ResultFragmentArgs.fromBundle(requireArguments()).guestTotal.toString()
-        text_guest.text = guest_total
-    }
 }

@@ -12,9 +12,16 @@ data class GuestRole(
     var roleId: Long = 0L,
 
     @NonNull
-    val  role: String
+    val  role: String,
+
+    @ColumnInfo(name = "description")
+    val description: String,
+
+    @ColumnInfo(name = "order")
+    val order: Int
+
 ) {
     override fun toString(): String {
-        return role
+        return role + description
     }
 }

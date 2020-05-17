@@ -4,31 +4,28 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.room.Database
-import com.example.lab_5_android.database.Guest
-import com.example.lab_5_android.database.GuestDatabase
-import com.example.lab_5_android.database.GuestDatabaseDao
-import com.example.lab_5_android.database.GuestRepository
+import com.example.lab_5_android.database.*
 import kotlinx.coroutines.*
+import java.lang.StringBuilder
 
-class GuestViewModel(dataSource: GuestDatabaseDao, application: Application) : AndroidViewModel(application) {
+class GuestViewModel(val database: GuestDatabaseDao) : ViewModel() {
 
-    private val repository: GuestRepository
+    private val guests = database.getGuestsWithRole()
 
-    val allGuests: LiveData<List<Guest>>
-
-    // viewModelJob allows us to cancel all coroutines started by the ViewModel
-    private var viewModelJob = Job()
-
-
-    init {
-        val guestsDao = GuestDatabase.getInstance(application).guestDatabaseDao
-        repository = GuestRepository(guestsDao)
-        allGuests = repository.allGuests
+    val guestsText = Transformations.map(guests) {
+        buildGuestsText(it)
     }
 
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
+    private fun buildGuestsText(guestsWithRole: List<GuestWithRole>) : String {
+        val guestsText = StringBuilder()
+        for (qwt in guestsWithRole) {
+            guestsText.append("Invitado: ${qwt.guest.guestId}\n" +
+            "Nombre: ${qwt.guest.name}\n" +
+            "Telefono: ${qwt.guest.phone}\n" +
+            "Correo: ${qwt.guest.email}\n" +
+            "Rol: ${qwt.role}\n\n")
+        }
+        return guestsText.toString()
     }
+
 }

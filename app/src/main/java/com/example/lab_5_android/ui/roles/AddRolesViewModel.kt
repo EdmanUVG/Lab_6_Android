@@ -10,6 +10,10 @@ class AddRolesViewModel(val database: GuestRoleDatabaseDao) : ViewModel() {
 
     val role = MutableLiveData<String>()
 
+    val desctiption = MutableLiveData<String>()
+
+    val orden = MutableLiveData<Int>()
+
     private val viewModelJob = Job()
 
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -22,7 +26,7 @@ class AddRolesViewModel(val database: GuestRoleDatabaseDao) : ViewModel() {
 
     private suspend fun insert(){
         withContext(Dispatchers.IO) {
-            database.insert(GuestRole(role = role.value ?: ""))
+            database.insert(GuestRole(role = role.value ?: "", description = desctiption.value ?: "", order = orden.value?: 1 ))
         }
     }
 
