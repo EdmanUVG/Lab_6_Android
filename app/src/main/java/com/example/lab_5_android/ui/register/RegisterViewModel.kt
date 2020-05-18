@@ -41,10 +41,9 @@ class RegisterViewModel(val database: GuestDatabaseDao) : ViewModel() {
     fun updateCurrentGuest() {
         val guestWithRole = currentGuest.value
         guestCount++
+        // >=
         if (totalCount >= guestCount) {
             currentGuest.value = guests.value?.get(guestCount -1)
-        } else {
-            _registeredComplete.value = true
         }
         uiScope.launch {
             update(guestWithRole?.let {
@@ -57,6 +56,9 @@ class RegisterViewModel(val database: GuestDatabaseDao) : ViewModel() {
             })
             Log.i("@Edman", "True")
         }
+        if(guestCount > totalCount) {
+            _registeredComplete.value = true
+        }
     }
 
     fun updateCurrentGuestNo() {
@@ -64,8 +66,6 @@ class RegisterViewModel(val database: GuestDatabaseDao) : ViewModel() {
         guestCount++
         if (totalCount >= guestCount) {
             currentGuest.value = guests.value?.get(guestCount -1)
-        } else {
-            _registeredComplete.value = true
         }
         uiScope.launch {
             update(guestWithRole?.let {
@@ -77,6 +77,9 @@ class RegisterViewModel(val database: GuestDatabaseDao) : ViewModel() {
                     role_id = it.guest.role_id)
             })
             Log.i("@Edman", "False")
+        }
+        if(guestCount > totalCount) {
+            _registeredComplete.value = true
         }
     }
 

@@ -18,7 +18,7 @@
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="60dp"
             android:textColor="@android:color/black"
             android:textSize="30sp"
             android:text="@{registerViewModel.currentGuest.guest.name}"
@@ -30,36 +30,36 @@
             android:id="@+id/text_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:textAlignment="textStart"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:text="@{registerViewModel.currentGuest.guest.phone}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_name"/>
+            app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
         <TextView
             android:id="@+id/text_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:textAlignment="textStart"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:text="@{registerViewModel.currentGuest.guest.email}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_phone"/>
+            app:layout_constraintTop_toBottomOf="@+id/text_phone" />
 
         <TextView
             android:id="@+id/text_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@{registerViewModel.currentGuest.role}"
+            android:layout_marginTop="20dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
+            android:text="@{registerViewModel.currentGuest.role}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_email" />
