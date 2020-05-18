@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
@@ -44,6 +45,10 @@ class AddRolesFragment : Fragment() {
         val dataSource = GuestDatabase.getInstance(application).guestRoleDatabaseDao
         viewModelFactory = AddRolesViewModelFactory(dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory).get(AddRolesViewModel::class.java)
+
+        viewModel.orden.observe(viewLifecycleOwner, Observer { order ->
+            binding.seekBarValue.text = order.toString()
+        })
 
         binding.viewModel = viewModel
     }
